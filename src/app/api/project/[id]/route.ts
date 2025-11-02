@@ -20,7 +20,7 @@ function getUserIdFromReq(req: NextRequest) {
 }
 
 /** GET /api/project/:id  -> fetch a single project (owned by user) */
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, context: { params: { id: string } }) {
     const userId = getUserIdFromReq(_req);
     if (!userId) {
         return NextResponse.json(
@@ -29,7 +29,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
         );
     }
 
-    const { id } = params;
+    const { id } = await context.params;
+
     if (!mongoose.isValidObjectId(id)) {
         return NextResponse.json({ message: "Invalid project id" }, { status: 400 });
     }
@@ -51,7 +52,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 /** PUT /api/project/:id  -> update fields (edit) */
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: { id: string } }
 ) {
     const userId = getUserIdFromReq(req);
     if (!userId) {
@@ -61,7 +62,8 @@ export async function PUT(
         );
     }
 
-    const { id } = params;
+    const { id } = await context.params;
+
     if (!mongoose.isValidObjectId(id)) {
         return NextResponse.json({ message: "Invalid project id" }, { status: 400 });
     }
@@ -108,7 +110,7 @@ export async function PUT(
 /** DELETE /api/project/:id  -> optional */
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: { id: string } }
 ) {
     const userId = getUserIdFromReq(req);
     if (!userId) {
@@ -118,7 +120,8 @@ export async function DELETE(
         );
     }
 
-    const { id } = params;
+    const { id } = await context.params;
+
     if (!mongoose.isValidObjectId(id)) {
         return NextResponse.json({ message: "Invalid project id" }, { status: 400 });
     }
