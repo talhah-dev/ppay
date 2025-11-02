@@ -2,7 +2,6 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface Iuser extends Document {
     name: string;
-    username: string;
     avatar: string;
     bio: string;
     email: string;
@@ -16,17 +15,6 @@ export interface Iuser extends Document {
 const userSchema: Schema<Iuser> = new Schema({
     name: {
         type: String,
-    },
-    username: {
-        type: String,
-        required: [true, "Username is required "],
-        unique: true,
-        trim: true,
-        lowercase: true,
-        minlength: 3,
-        maxlength: 30,
-        // match: [/^[a-z0-9_]+$/, "Only lowercase letters, numbers and _ are allowed"],
-        index: true,
     },
     email: {
         type: String,

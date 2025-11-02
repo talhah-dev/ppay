@@ -5,8 +5,10 @@ import {
     Bell,
     ChevronsUpDown,
     CreditCard,
+    Heart,
     LogOut,
     Sparkles,
+    User,
 } from "lucide-react"
 
 import {
@@ -117,15 +119,15 @@ export function NavUser({
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
+                                <Heart />
+                                Donation
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <Link href={"/dashboard/profile"}>
                                 <DropdownMenuItem>
-                                    <BadgeCheck />
+                                    <User />
                                     Profile
                                 </DropdownMenuItem>
                             </Link>

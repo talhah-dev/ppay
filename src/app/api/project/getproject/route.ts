@@ -13,7 +13,7 @@ export async function GET() {
                     $group: {
                         _id: null,
                         totalAmount: { $sum: { $cond: [{ $eq: ["$isPaid", false] }, "$amount", 0] } },
-                        activeProject: { $sum: { $cond: [{ $eq: ["$isActive", true] }, 1, 0] } },
+                        pendingProject: { $sum: { $cond: [{ $in: ["$status", ["pending", "progress"]] }, 1, 0] } },
                         inactiveProject: { $sum: { $cond: [{ $eq: ["$isActive", false] }, 1, 0] } },
                         completedProject: { $sum: { $cond: [{ $eq: ["$status", "completed"] }, 1, 0] } },
                     }

@@ -61,10 +61,10 @@ export default function Profile() {
               </div>
 
               <div className="mt-16 sm:mt-0 text-center md:text-start sm:ml-6">
-                <h1 className="text-2xl font-semibold leading-tight md:text-3xl">{data.name}</h1>
+                <h1 className="text-2xl font-semibold leading-tight md:text-3xl">{data.name || "Add Name"}</h1>
                 <div className="mt-2 flex justify-center md:justify-start flex-wrap items-center gap-2 text-muted-foreground">
                   <span className="flex items-center gap-1">
-                    <User className="size-4" /> {data.username}
+                    <User className="size-4" /> {data.email}
                   </span>
                 </div>
 
@@ -98,7 +98,7 @@ export default function Profile() {
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Full name</p>
-                  <p className="font-medium">{data.name}</p>
+                  <p className="font-medium">{data.name || "Add Name"}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Email</p>
@@ -159,7 +159,6 @@ function EditProfileDialog({ open, onOpenChange, user }: {
 }) {
 
   const [name, setName] = useState(user.name);
-  const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio);
   const [file, setFile] = useState<File | null>(null);
 
@@ -180,7 +179,7 @@ function EditProfileDialog({ open, onOpenChange, user }: {
         imageUrl = url;
       }
 
-      return EditProfile({ name, username, bio, avatar: imageUrl })
+      return EditProfile({ name, bio, avatar: imageUrl })
     },
 
     onSuccess: (data) => {
@@ -234,17 +233,9 @@ function EditProfileDialog({ open, onOpenChange, user }: {
               <Label htmlFor="name">Full name</Label>
               <Input id="name" type="text" onChange={(e) => setName(e.target.value)} value={name} />
             </div>
-            {/* <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" readOnly defaultValue={user.email} />
-            </div> */}
-            {/* <div>
-              <Label htmlFor="location">Location</Label>
-              <Input id="location" defaultValue={user.location} />
-            </div> */}
             <div>
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" type="text" onChange={(e) => setUsername(e.target.value)} value={username} />
+              <Label htmlFor="username">Email</Label>
+              <Input id="username" type="text" readOnly defaultValue={user.email} />
             </div>
             <div className="sm:col-span-2">
               <Label htmlFor="bio">Bio</Label>

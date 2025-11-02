@@ -53,6 +53,7 @@ const CreateProject = () => {
 
     const {
         mutate: editStatus,
+        isPending: isEditingStatus,
     } = useMutation({
         mutationFn: () => {
             return editProject({ id, status })
@@ -129,26 +130,36 @@ const CreateProject = () => {
 
                                         {project.isActive ? (
                                             <CardFooter className='flex gap-2 justify-between items-end'>
+
+
                                                 <div className='flex flex-col w-full space-y-1.5'>
                                                     <Label htmlFor='framework'>Status</Label>
-                                                    <Select
-                                                        required
-                                                        value={project.status}
-                                                        onValueChange={(value) => {
-                                                            setStatus(value)
-                                                            setId(project._id)
-                                                            editStatus()
-                                                        }}
-                                                    >
-                                                        <SelectTrigger className='w-full' id='framework'>
-                                                            <SelectValue placeholder='Select' />
-                                                        </SelectTrigger>
-                                                        <SelectContent className='w-full'>
-                                                            <SelectItem value='pending'>Pending</SelectItem>
-                                                            <SelectItem value='progress'>Progress</SelectItem>
-                                                            <SelectItem value='completed'>Completed</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
+                                                    {
+                                                        isEditingStatus && id === project._id ? (
+                                                            <div className="w-full flex items-center justify-center border p-[9.3px] rounded-lg">
+                                                                <Spinner />
+                                                            </div>
+                                                        ) : (
+                                                            <Select
+                                                                required
+                                                                value={project.status}
+                                                                onValueChange={(value) => {
+                                                                    setStatus(value)
+                                                                    setId(project._id)
+                                                                    editStatus()
+                                                                }}
+                                                            >
+                                                                <SelectTrigger className='w-full' id='framework'>
+                                                                    <SelectValue placeholder='Select' />
+                                                                </SelectTrigger>
+                                                                <SelectContent className='w-full'>
+                                                                    <SelectItem value='pending'>Pending</SelectItem>
+                                                                    <SelectItem value='progress'>Progress</SelectItem>
+                                                                    <SelectItem value='completed'>Completed</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )
+                                                    }
                                                 </div>
 
                                                 <div className="flex items-center">
