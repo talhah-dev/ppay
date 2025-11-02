@@ -215,11 +215,11 @@ function EditProfileDialog({ open, onOpenChange, user }: {
               <AvatarImage src={user.avatar} alt={user.username} />
               <AvatarFallback>{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <div className="flex items-center gap-2">
+            <div className="flex relative items-center gap-2">
               <input
                 type="file"
                 accept="image/*"
-                className="hi dden"
+                className="absolute w-40 h-8 opacity-0"
                 onChange={handleFileChange}
               />
               <Button size="sm" variant="secondary">

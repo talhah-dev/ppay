@@ -21,10 +21,10 @@ export async function POST(request: NextRequest) {
         const userId = (decoded as { id: string }).id;
 
         // 3️⃣ Parse request body
-        const { title, status, deadline, cost } =
+        const { title, status, deadline, amount, framework, time, isActive } =
             await request.json();
 
-        if (!title) {
+        if (!title || !deadline || !amount || !framework) {
             return NextResponse.json(
                 { message: "All fields are required", success: false },
                 { status: 400 }
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         }
 
         const project = await Project.create({
-            author: userId, title, status, deadline, cost
+            author: userId, title, status, deadline, amount, time, framework, isActive
         });
 
         return NextResponse.json(

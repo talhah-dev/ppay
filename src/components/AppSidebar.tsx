@@ -24,13 +24,13 @@ const items = [
         icon: Home,
     },
     {
-        title: "Create Project",
-        url: "#",
+        title: "Projects",
+        url: "project",
         icon: Inbox,
     },
     {
         title: "History",
-        url: "#",
+        url: "history",
         icon: Calendar,
     },
     {

@@ -38,3 +38,40 @@ export async function logout() {
     const res = await axios.get("/api/auth/logout");
     return res.data;
 }
+
+export async function createProject(input: { title: string; status?: string; deadline: Date; time: string, amount: number, framework: string, isActive: boolean }) {
+    const res = await axios.post("/api/project/createproject", input);
+    if (!res.data?.success) {
+        throw new Error(res.data?.message || "Failed to create project");
+    }
+    return res.data;
+}
+
+export async function getProjects() {
+    const res = await axios.get("/api/project/getproject");
+    return res.data;
+}
+
+export async function deleteProject(input: { id: string }) {
+    const res = await axios.delete(`/api/project/${input.id}`);
+    if (!res.data?.success) {
+        throw new Error(res.data?.message || "Failed to delete project");
+    }
+    return res.data;
+}
+
+export async function getSingleProject(input: { id: string }) {
+    const res = await axios.get(`/api/project/${input.id}`);
+    if (!res.data?.success) {
+        throw new Error(res.data?.message || "Failed to get project");
+    }
+    return res.data;
+}
+
+export async function editProject(input: { id: string, title?: string, isActive?: boolean, status?: string, deadline?: Date, time?: string, amount?: number, framework?: string }){
+    const res = await axios.put(`/api/project/${input.id}`, input);
+    if(!res.data?.success){
+        throw new Error(res.data?.message || "Failed to edit project");
+    }
+    return res.data;
+}
