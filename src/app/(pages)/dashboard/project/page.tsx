@@ -36,7 +36,7 @@ const CreateProject = () => {
 
     const { data, isError, isLoading } = useQuery({
         queryKey: ['projects'],
-        queryFn: getProjects,
+        queryFn: () => getProjects(),
     })
 
     interface Project {
@@ -155,6 +155,7 @@ const CreateProject = () => {
                                                                 <SelectContent className='w-full'>
                                                                     <SelectItem value='pending'>Pending</SelectItem>
                                                                     <SelectItem value='progress'>Progress</SelectItem>
+                                                                    <SelectItem value='fail'>Fail</SelectItem>
                                                                     <SelectItem value='completed'>Completed</SelectItem>
                                                                 </SelectContent>
                                                             </Select>
@@ -164,7 +165,7 @@ const CreateProject = () => {
 
                                                 <div className="flex items-center">
                                                     <EditProject projectId={project._id} />
-                                                    <AlertDialogDemo projectId={project._id} />
+                                                    {/* <AlertDialogDemo projectId={project._id} /> */}
                                                 </div>
                                             </CardFooter>
                                         ) : (

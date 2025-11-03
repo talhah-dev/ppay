@@ -1,13 +1,24 @@
 import { DBconnection } from "@/app/config/DBConection";
 import Project from "@/models/projectModel";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 DBconnection()
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
+
+        const { searchParams } = new URL(request.url);
+        const isPaidParam = searchParams.get("isPaid"); // "true" | "false" | null
+
+        // ✅ Build dynamic filter
+        const filter: any = {};
+
+        if (isPaidParam !== null) {
+            filter.isPaid = isPaidParam === "true";
+        }
+
         const [projects, summaryArr] = await Promise.all([
-            Project.find(),
+            Project.find(filter).sort({ createdAt: -1 }),
             Project.aggregate([
                 {
                     $group: {

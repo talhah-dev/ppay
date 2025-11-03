@@ -8,15 +8,18 @@ import {
 import { ActivityIcon, Book } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
 import { getProjects } from '@/lib/api'
+import { Spinner } from './ui/spinner'
 
 export default function DashboardMetrics() {
     const { data, isError, isLoading } = useQuery({
         queryKey: ['projects'],
-        queryFn: getProjects,
+        queryFn: () => getProjects(),
     })
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div className='flex items-center justify-center h-screen'>
+            <Spinner />
+        </div>
     }
 
     if (isError) {

@@ -47,10 +47,16 @@ export async function createProject(input: { title: string; status?: string; dea
     return res.data;
 }
 
-export async function getProjects() {
-    const res = await axios.get("/api/project/getproject");
+export async function getProjects(isPaid?: boolean, isCompleted?: boolean) {
+    const url = isPaid === undefined
+        ? "/api/project/getproject" : isCompleted === undefined
+            ? `/api/project/getproject?isCompleted=${isCompleted}`
+            : `/api/project/getproject?isPaid=${isPaid}`;
+
+    const res = await axios.get(url);
     return res.data;
 }
+
 
 export async function deleteProject(input: { id: string }) {
     const res = await axios.delete(`/api/project/${input.id}`);
@@ -68,9 +74,9 @@ export async function getSingleProject(input: { id: string }) {
     return res.data;
 }
 
-export async function editProject(input: { id: string, title?: string, isActive?: boolean, status?: string, deadline?: Date, time?: string, amount?: number, framework?: string }){
+export async function editProject(input: { id: string, title?: string, isActive?: boolean, status?: string, deadline?: Date, time?: string, amount?: number, framework?: string }) {
     const res = await axios.put(`/api/project/${input.id}`, input);
-    if(!res.data?.success){
+    if (!res.data?.success) {
         throw new Error(res.data?.message || "Failed to edit project");
     }
     return res.data;
