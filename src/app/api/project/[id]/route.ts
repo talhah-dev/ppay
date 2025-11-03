@@ -49,7 +49,6 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
     }
 }
 
-/** PUT /api/project/:id  -> update fields (edit) */
 export async function PUT(
     req: NextRequest,
     context: { params: Promise<{ id: string }> }
@@ -69,7 +68,6 @@ export async function PUT(
     }
 
     try {
-        // Body can contain any subset of these fields
         const { title, status, deadline, amount, framework, time, isActive } = await req.json();
 
         const update: Record<string, any> = {};
@@ -81,7 +79,6 @@ export async function PUT(
         if (typeof isActive !== "undefined") update.isActive = isActive;
         if (typeof deadline !== "undefined") update.deadline = deadline;
 
-        // Ownership check is enforced in the query:
         const updated = await Project.findOneAndUpdate(
             { _id: id, author: userId },
             { $set: update },

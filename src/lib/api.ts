@@ -47,11 +47,10 @@ export async function createProject(input: { title: string; status?: string; dea
     return res.data;
 }
 
-export async function getProjects(isPaid?: boolean, isCompleted?: boolean) {
+export async function getProjects(isPaid?: boolean) {
     const url = isPaid === undefined
-        ? "/api/project/getproject" : isCompleted === undefined
-            ? `/api/project/getproject?isCompleted=${isCompleted}`
-            : `/api/project/getproject?isPaid=${isPaid}`;
+        ? "/api/project/getproject"
+        : `/api/project/getproject?isPaid=${isPaid}`;
 
     const res = await axios.get(url);
     return res.data;
@@ -80,4 +79,13 @@ export async function editProject(input: { id: string, title?: string, isActive?
         throw new Error(res.data?.message || "Failed to edit project");
     }
     return res.data;
+}
+
+export async function markProjectAsPaid(ids: string[]) {
+    const res = await axios.post("/api/project/markpaid", { ids });
+    if (!res.data?.success) {
+        throw new Error(res.data?.message || "Failed to mark project as paid");
+    }
+    return res.data;
+
 }
