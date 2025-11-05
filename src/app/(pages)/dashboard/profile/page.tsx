@@ -35,6 +35,8 @@ export default function Profile() {
     queryFn: getProfile,
   });
 
+
+
   if (isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
@@ -147,7 +149,7 @@ export default function Profile() {
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { EditProfile, getProfile } from "@/lib/api";
+import { EditProfile, getProfile, getProfileOthers } from "@/lib/api";
 import { Spinner } from "@/components/ui/spinner";
 import { uploadImageToCloudinary } from "@/lib/uploadImage";
 import { toast } from "sonner";

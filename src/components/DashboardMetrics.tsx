@@ -12,8 +12,8 @@ import { Spinner } from './ui/spinner'
 
 export default function DashboardMetrics() {
     const { data, isError, isLoading } = useQuery({
-        queryKey: ['projects'],
-        queryFn: () => getProjects(),
+        queryKey: ['projects', { isPaid: false }],
+        queryFn: () => getProjects(false),
     })
 
     if (isLoading) {
@@ -59,7 +59,7 @@ export default function DashboardMetrics() {
                         <ActivityIcon className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold">{data.summary.pendingProject}</div>
+                        <div className="text-2xl font-semibold">{data.summary.pendingProject || 0}</div>
                         <p className="text-xs text-muted-foreground">
                             Since last hour
                         </p>

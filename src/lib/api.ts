@@ -26,6 +26,12 @@ export async function getProfile() {
     return res.data;
 }
 
+export async function getProfileOthers(id: string) {
+    const res = await axios.get(`/api/profile/myProfile?id=${id}`);
+    return res.data;
+}
+
+
 export async function EditProfile(input: { name?: string; username?: string; avatar?: string; bio?: string }) {
     const res = await axios.post("/api/profile/editProfile", input);
     if (!res.data?.success) {

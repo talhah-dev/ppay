@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
         const user = await User.findOne({ email });
 
-        if (!user) {
+        if (!user || !user.isVerified) {
             return NextResponse.json(
                 {
                     message: "User doesn't exists",
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         //     secure: process.env.NODE_ENV === "production",
         //     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         // })
-        
+
         response.cookies.set("token", token, {
             httpOnly: false,
             secure: false,

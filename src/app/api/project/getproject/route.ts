@@ -7,19 +7,19 @@ DBconnection()
 export async function GET(request: NextRequest) {
     try {
 
-        const { searchParams } = new URL(request.url);
-        const isPaidParam = searchParams.get("isPaid"); // "true" | "false" | null
+        const params = request.nextUrl.searchParams;
 
-        // ✅ Build dynamic filter
         const filter: any = {};
+        const isPaidParam = params.get("isPaid"); // "true" | "false" | null
 
         if (isPaidParam !== null) {
             filter.isPaid = isPaidParam === "true";
         }
 
         const [projects, summaryArr] = await Promise.all([
-            Project.find(filter).sort({ createdAt: -1 }),
+            Project.find(filter).sort({ createdAt: -1 }).populate({ path: "author", select: "name email _id avatar" }),
             Project.aggregate([
+                { $match: filter },
                 {
                     $group: {
                         _id: null,

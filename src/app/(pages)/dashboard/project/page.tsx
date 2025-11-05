@@ -20,24 +20,28 @@ import { Card, CardHeader, CardDescription, CardTitle, CardFooter, CardContent }
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deleteProject, editProject, getProjects } from '@/lib/api'
+import { deleteProject, editProject, getProfileOthers, getProjects } from '@/lib/api'
 import { Spinner } from '@/components/ui/spinner'
 import { Trash2, PlayCircle, Edit } from 'lucide-react';
 import EditProject from '@/components/EditProject'
 import { toast } from 'sonner'
 import { EmptyDemo } from '@/components/EmptyDemo'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import Link from 'next/link'
 
 const CreateProject = () => {
     const [status, setStatus] = useState<string>("pending")
     const [id, setId] = useState<string>("")
 
-
     const queryClient = useQueryClient();
 
     const { data, isError, isLoading } = useQuery({
-        queryKey: ['projects'],
-        queryFn: () => getProjects(),
+        queryKey: ['projects', { isPaid: false }],
+        queryFn: () => getProjects(false),
     })
+
+    console.log(data);
+
 
     interface Project {
         title: string,
@@ -45,10 +49,15 @@ const CreateProject = () => {
         deadline: string,
         status: string,
         framework: string,
-        author?: string,
         isActive: boolean,
         time: string,
         _id: string,
+        author: {
+            name: string,
+            email: string,
+            avatar: string,
+            _id: string,
+        }
     }
 
     const {
@@ -98,8 +107,20 @@ const CreateProject = () => {
                         <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5 my-8">
                             {
                                 data.projects.map((project: Project, index: number) => (
-                                    <Card key={index} className='border-none'>
+                                    <Card key={index} className='border-none relative'>
                                         <CardHeader>
+                                            <Link href={`/dashboard/profile/${project.author._id}`} className="">
+                                                <div className="flex items-center gap-2">
+                                                    <Avatar className="h-8 w-8 rounded-lg">
+                                                        <AvatarImage src={project.author.avatar} alt={project.author.name} />
+                                                        <AvatarFallback className="rounded-lg">{project.author.name}</AvatarFallback>
+                                                    </Avatar>
+                                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                                        <span className="truncate font-medium">{project.author.name}</span>
+                                                        <span className="truncate text-xs">{project.author.email}</span>
+                                                    </div>
+                                                </div>
+                                            </Link>
                                             <CardTitle className='flex items-center justify-between'>
                                                 {project.title}
                                                 <Badge variant={'default'}>
