@@ -57,20 +57,11 @@ export async function POST(request: NextRequest) {
                 success: true,
             }, { status: 200 });
 
-        // response.cookies.set("token", token, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: "none",
-        //     maxAge: 60 * 60 * 24 * 365, // 1 year
-        //     secure: process.env.NODE_ENV === "production",
-        //     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        // })
-
         response.cookies.set("token", token, {
-            httpOnly: false,
-            secure: false,
-            sameSite: "lax",
-
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 365, // 1 year
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         })
 
         return response;
